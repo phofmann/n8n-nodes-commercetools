@@ -9,6 +9,7 @@ import { NodeOperationError } from 'n8n-workflow';
 
 import { commercetoolsDescription } from './descriptions/Commercetools.description';
 import { executeCategoryOperation } from './operations/category.operations';
+import { executeDiscountCodeOperation } from './operations/discountCode.operations';
 import { executeCustomerOperation } from './operations/customer.operations';
 import { executeProductOperation } from './operations/product.operations';
 import { executeCartOperation } from './operations/cart.operations';
@@ -53,12 +54,19 @@ export class Commercetools implements INodeType {
 
 				let results: INodeExecutionData[] = [];
 
+				console.log('BUBU');
 				if (resource === 'product') {
 					results = await executeProductOperation.call(this, {
 						operation,
 						itemIndex,
 						baseUrl,
 						items,
+					});
+				} else if (resource === 'discountCode') {
+					results = await executeDiscountCodeOperation.call(this, {
+						operation,
+						itemIndex,
+						baseUrl,
 					});
 				} else if (resource === 'category') {
 					results = await executeCategoryOperation.call(this, {

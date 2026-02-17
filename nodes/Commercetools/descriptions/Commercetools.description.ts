@@ -25,6 +25,12 @@ import {
 	orderDraftFields,
 	orderAdditionalFields,
 } from '../properties/order.properties';
+import {
+	discountCodeAdditionalFields,
+	discountCodeBaseFields,
+	discountCodeDraftFields,
+	discountCodeOperations,
+} from '../properties/discountCode.properties';
 
 // Existing resource field - UPDATED with trigger option
 const resourceField: INodeProperties = {
@@ -44,6 +50,10 @@ const resourceField: INodeProperties = {
 		{
 			name: 'Customer',
 			value: 'customer',
+		},
+		{
+			name: 'Discount Code',
+			value: 'discountCode',
 		},
 		{
 			name: 'Order',
@@ -97,7 +107,7 @@ const sharedProductCategoryFields: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['product', 'category', 'cart'],
+				resource: ['product', 'category', 'cart', 'discountCode'],
 				operation: [
 					'update',
 					'updateByKey',
@@ -120,7 +130,7 @@ const sharedProductCategoryFields: INodeProperties[] = [
 		description: 'Update actions to apply to the resource',
 		displayOptions: {
 			show: {
-				resource: ['product', 'category', 'cart'],
+				resource: ['product', 'category', 'cart', 'discountCode'],
 				operation: ['update', 'updateByKey', 'updateInStore', 'updateInStoreByKey'],
 			},
 		},
@@ -206,6 +216,16 @@ export const commercetoolsDescription: INodeTypeDescription = {
 				},
 			},
 		})),
+		...discountCodeOperations.map((op) => ({
+			...op,
+			displayOptions: {
+				...op.displayOptions,
+				show: {
+					...op.displayOptions?.show,
+					resource: ['discountCode'],
+				},
+			},
+		})),
 		...orderOperations.map((op) => ({
 			...op,
 			displayOptions: {
@@ -218,15 +238,18 @@ export const commercetoolsDescription: INodeTypeDescription = {
 		})),
 		...productIdentificationFields,
 		...categoryBaseFields,
+		...discountCodeBaseFields,
 		...customerFields,
 		...cartIdentificationFields,
 		...orderIdentificationFields,
 		...productDraftFields,
 		...cartDraftFields,
 		...orderDraftFields,
+		...discountCodeDraftFields,
 		...sharedProductCategoryFields,
 		...productAdditionalFields,
 		...categoryAdditionalFields,
+		...discountCodeAdditionalFields,
 		...cartAdditionalFields,
 		...orderAdditionalFields,
 	],
