@@ -740,4 +740,34 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 			},
 		},
 	},
+	{
+		displayName: 'Actions (JSON)',
+		name: 'actions',
+		type: 'json',
+		default: '[]',
+		description: 'Update actions to apply to the resource',
+		displayOptions: {
+			show: {
+				resource: [resources.discountCode],
+				operation: ['update', 'updateByKey'],
+			},
+		},
+	},
+	{
+		displayName: 'Version',
+		name: 'version',
+		type: 'number',
+		typeOptions: {
+			minValue: 0,
+		},
+		default: 0,
+		required: true,
+		displayOptions: {
+			show: {
+				resource: [resources.discountCode],
+				operation: ['update', 'updateByKey', 'delete', 'deleteByKey'],
+			},
+		},
+		description: 'Current version of the resource to ensure optimistic concurrency control',
+	},
 ];

@@ -127,7 +127,7 @@ const sharedProductCategoryFields: INodeProperties[] = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['product', 'category', 'cart', 'discountCode'],
+				resource: ['product', 'category', 'cart'],
 				operation: [
 					'update',
 					'updateByKey',
@@ -150,7 +150,7 @@ const sharedProductCategoryFields: INodeProperties[] = [
 		description: 'Update actions to apply to the resource',
 		displayOptions: {
 			show: {
-				resource: ['product', 'category', 'cart', 'discountCode'],
+				resource: ['product', 'category', 'cart'],
 				operation: ['update', 'updateByKey', 'updateInStore', 'updateInStoreByKey'],
 			},
 		},
