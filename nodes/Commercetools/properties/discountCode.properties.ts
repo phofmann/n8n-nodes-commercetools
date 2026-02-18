@@ -1,9 +1,11 @@
 import type { INodeProperties } from 'n8n-workflow';
+import { discountCodeFields } from './discountCode.constants';
+import { resources } from '../resources.constants';
 
 export const discountCodeOperations: INodeProperties[] = [
 	{
 		displayName: 'Operation',
-		name: 'operation',
+		name: discountCodeFields.operation,
 		type: 'options',
 		noDataExpression: true,
 		options: [
@@ -59,7 +61,7 @@ export const discountCodeOperations: INodeProperties[] = [
 		default: 'query',
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 			},
 		},
 	},
@@ -68,13 +70,13 @@ export const discountCodeOperations: INodeProperties[] = [
 export const discountCodeBaseFields: INodeProperties[] = [
 	{
 		displayName: 'Discount Code ID',
-		name: 'discountCodeId',
+		name: discountCodeFields.discountCodeId,
 		type: 'string',
 		default: '',
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['get', 'update', 'delete'],
 			},
 		},
@@ -82,13 +84,13 @@ export const discountCodeBaseFields: INodeProperties[] = [
 	},
 	{
 		displayName: 'Discount Code Key',
-		name: 'discountCodeKey',
+		name: discountCodeFields.discountCodeKey,
 		type: 'string',
 		default: '',
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['getByKey', 'updateByKey', 'deleteByKey'],
 			},
 		},
@@ -98,13 +100,13 @@ export const discountCodeBaseFields: INodeProperties[] = [
 export const discountCodeDraftFields: INodeProperties[] = [
 	{
 		displayName: 'Discount Code Draft (JSON)',
-		name: 'discountCodeDraft',
+		name: discountCodeFields.discountCodeDraft,
 		type: 'json',
 		default: '{}',
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['create'],
 			},
 		},
@@ -116,7 +118,7 @@ export const discountCodeDraftFields: INodeProperties[] = [
 export const discountCodeAdditionalFields: INodeProperties[] = [
 	{
 		displayName: 'Actions (UI)',
-		name: 'updateActions',
+		name: discountCodeFields.updateActions,
 		type: 'fixedCollection',
 		default: {},
 		placeholder: 'Add Action',
@@ -126,7 +128,7 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		description: 'Define multiple update actions to perform on the discount code',
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['update', 'updateByKey'],
 			},
 		},
@@ -412,7 +414,7 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 	},
 	{
 		displayName: 'Additional Fields',
-		name: 'discountCodeAdditionalFieldsQuery',
+		name: discountCodeFields.additionalFieldsQuery,
 		type: 'collection',
 		default: {},
 		placeholder: 'Add Field',
@@ -478,19 +480,19 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		],
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['query'],
 			},
 		},
 	},
 	{
 		displayName: 'Return All',
-		name: 'discountCodeReturnAll',
+		name: discountCodeFields.returnAll,
 		type: 'boolean',
 		default: false,
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['query'],
 			},
 		},
@@ -498,7 +500,7 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 	},
 	{
 		displayName: 'Limit',
-		name: 'discountCodeLimit',
+		name: discountCodeFields.limit,
 		type: 'number',
 		default: 50,
 		typeOptions: {
@@ -507,8 +509,8 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		},
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
-				operation: ['query'],
+				resource: [resources.discountCode],
+				[discountCodeFields.operation]: ['query'],
 				discountCodeReturnAll: [false],
 			},
 		},
@@ -516,7 +518,7 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 	},
 	{
 		displayName: 'Offset',
-		name: 'discountCodeOffset',
+		name: discountCodeFields.offset,
 		type: 'number',
 		default: 0,
 		typeOptions: {
@@ -524,7 +526,7 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		},
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['query'],
 			},
 		},
@@ -532,7 +534,7 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 	},
 	{
 		displayName: 'Additional Fields',
-		name: 'discountCodeAdditionalFieldsGet',
+		name: discountCodeFields.additionalFieldsGet,
 		type: 'collection',
 		default: {},
 		placeholder: 'Add Field',
@@ -577,14 +579,14 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		],
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['get', 'getByKey'],
 			},
 		},
 	},
 	{
 		displayName: 'Additional Fields',
-		name: 'discountCodeAdditionalFieldsCreate',
+		name: discountCodeFields.additionalFieldsCreate,
 		type: 'collection',
 		default: {},
 		placeholder: 'Add Field',
@@ -629,14 +631,14 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		],
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['create'],
 			},
 		},
 	},
 	{
 		displayName: 'Additional Fields',
-		name: 'discountCodeAdditionalFieldsUpdate',
+		name: discountCodeFields.additionalFieldsUpdate,
 		type: 'collection',
 		default: {},
 		placeholder: 'Add Field',
@@ -681,14 +683,14 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		],
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['update', 'updateByKey'],
 			},
 		},
 	},
 	{
 		displayName: 'Additional Fields',
-		name: 'discountCodeAdditionalFieldsDelete',
+		name: discountCodeFields.additionalFieldsDelete,
 		type: 'collection',
 		default: {},
 		placeholder: 'Add Field',
@@ -733,7 +735,7 @@ export const discountCodeAdditionalFields: INodeProperties[] = [
 		],
 		displayOptions: {
 			show: {
-				resource: ['discountCode'],
+				resource: [resources.discountCode],
 				operation: ['delete', 'deleteByKey'],
 			},
 		},

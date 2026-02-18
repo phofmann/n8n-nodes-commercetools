@@ -1,0 +1,17 @@
+export const cartDiscountFields = {
+	operation: 'operation',
+	cartDiscountId: 'cartDiscountId',
+	cartDiscountKey: 'cartDiscountKey',
+	cartDiscountDraft: 'cartDiscountDraft',
+	updateActions: 'updateActions',
+	additionalFieldsQuery: 'cartDiscountAdditionalFieldsQuery',
+	returnAll: 'cartDiscountReturnAll',
+	limit: 'cartDiscountLimit',
+	offset: 'cartDiscountOffset',
+	additionalFieldsGet: 'cartDiscountAdditionalFieldsGet',
+	additionalFieldsCreate: 'cartDiscountAdditionalFieldsCreate',
+	additionalFieldsUpdate: 'cartDiscountAdditionalFieldsUpdate',
+	additionalFieldsDelete: 'cartDiscountAdditionalFieldsDelete',
+	version: 'version',
+	actions: 'actions',
+} as const;

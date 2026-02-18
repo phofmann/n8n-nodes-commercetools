@@ -1,0 +1,17 @@
+export const discountCodeFields = {
+	operation: 'operation',
+	discountCodeId: 'discountCodeId',
+	discountCodeKey: 'discountCodeKey',
+	discountCodeDraft: 'discountCodeDraft',
+	updateActions: 'updateActions',
+	additionalFieldsQuery: 'discountCodeAdditionalFieldsQuery',
+	returnAll: 'discountCodeReturnAll',
+	limit: 'discountCodeLimit',
+	offset: 'discountCodeOffset',
+	additionalFieldsGet: 'discountCodeAdditionalFieldsGet',
+	additionalFieldsCreate: 'discountCodeAdditionalFieldsCreate',
+	additionalFieldsUpdate: 'discountCodeAdditionalFieldsUpdate',
+	additionalFieldsDelete: 'discountCodeAdditionalFieldsDelete',
+	version: 'version',
+	actions: 'actions',
+} as const;

@@ -31,6 +31,18 @@ import {
 	discountCodeDraftFields,
 	discountCodeOperations,
 } from '../properties/discountCode.properties';
+import {
+	cartDiscountAdditionalFields,
+	cartDiscountBaseFields,
+	cartDiscountDraftFields,
+	cartDiscountOperations,
+} from '../properties/cartDiscount.properties';
+import {
+	productDiscountAdditionalFields,
+	productDiscountBaseFields,
+	productDiscountDraftFields,
+	productDiscountOperations,
+} from '../properties/productDiscount.properties';
 
 // Existing resource field - UPDATED with trigger option
 const resourceField: INodeProperties = {
@@ -42,6 +54,10 @@ const resourceField: INodeProperties = {
 		{
 			name: 'Cart',
 			value: 'cart',
+		},
+		{
+			name: 'Cart Discount',
+			value: 'cartDiscount',
 		},
 		{
 			name: 'Category',
@@ -62,6 +78,10 @@ const resourceField: INodeProperties = {
 		{
 			name: 'Product',
 			value: 'product',
+		},
+		{
+			name: 'Product Discount',
+			value: 'productDiscount',
 		},
 		{
 			name: 'Product Event', // Trigger resource
@@ -216,6 +236,16 @@ export const commercetoolsDescription: INodeTypeDescription = {
 				},
 			},
 		})),
+		...cartDiscountOperations.map((op) => ({
+			...op,
+			displayOptions: {
+				...op.displayOptions,
+				show: {
+					...op.displayOptions?.show,
+					resource: ['cartDiscount'],
+				},
+			},
+		})),
 		...discountCodeOperations.map((op) => ({
 			...op,
 			displayOptions: {
@@ -236,21 +266,41 @@ export const commercetoolsDescription: INodeTypeDescription = {
 				},
 			},
 		})),
-		...productIdentificationFields,
-		...categoryBaseFields,
-		...discountCodeBaseFields,
-		...customerFields,
-		...cartIdentificationFields,
-		...orderIdentificationFields,
-		...productDraftFields,
-		...cartDraftFields,
-		...orderDraftFields,
-		...discountCodeDraftFields,
-		...sharedProductCategoryFields,
-		...productAdditionalFields,
-		...categoryAdditionalFields,
-		...discountCodeAdditionalFields,
+		...productDiscountOperations.map((op) => ({
+			...op,
+			displayOptions: {
+				...op.displayOptions,
+				show: {
+					...op.displayOptions?.show,
+					resource: ['productDiscount'],
+				},
+			},
+		})),
 		...cartAdditionalFields,
+		...cartDiscountAdditionalFields,
+		...cartDiscountBaseFields,
+		...cartDiscountDraftFields,
+		...cartDraftFields,
+		...cartIdentificationFields,
+		...categoryAdditionalFields,
+		...categoryBaseFields,
+		...customerFields,
+
+		...discountCodeAdditionalFields,
+		...discountCodeBaseFields,
+		...discountCodeDraftFields,
+
 		...orderAdditionalFields,
+		...orderDraftFields,
+		...orderIdentificationFields,
+
+		...productDiscountAdditionalFields,
+		...productDiscountBaseFields,
+		...productDiscountDraftFields,
+
+		...productAdditionalFields,
+		...productDraftFields,
+		...productIdentificationFields,
+		...sharedProductCategoryFields,
 	],
 };

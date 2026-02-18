@@ -13,7 +13,10 @@ import { executeDiscountCodeOperation } from './operations/discountCode.operatio
 import { executeCustomerOperation } from './operations/customer.operations';
 import { executeProductOperation } from './operations/product.operations';
 import { executeCartOperation } from './operations/cart.operations';
+import { executeProductDiscountOperation } from './operations/productDiscount.operations';
 import { executeOrderOperation } from './operations/order.operations';
+import { executeCartDiscountOperation } from './operations/cartDiscount.operations';
+import { resources } from './resources.constants';
 
 export class Commercetools implements INodeType {
 	description: INodeTypeDescription = {
@@ -54,46 +57,58 @@ export class Commercetools implements INodeType {
 
 				let results: INodeExecutionData[] = [];
 
-				console.log('BUBU');
-				if (resource === 'product') {
+				if (resource === resources.product) {
 					results = await executeProductOperation.call(this, {
 						operation,
 						itemIndex,
 						baseUrl,
 						items,
 					});
-				} else if (resource === 'discountCode') {
+				} else if (resource === resources.discountCode) {
 					results = await executeDiscountCodeOperation.call(this, {
 						operation,
 						itemIndex,
 						baseUrl,
 					});
-				} else if (resource === 'category') {
+				} else if (resource === resources.category) {
 					results = await executeCategoryOperation.call(this, {
 						operation,
 						itemIndex,
 						baseUrl,
 					});
-				} else if (resource === 'customer') {
+				} else if (resource === resources.customer) {
 					results = await executeCustomerOperation.call(this, {
 						operation,
 						itemIndex,
 						baseUrl,
 						items,
 					});
-				} else if (resource === 'cart') {
+				} else if (resource === resources.cart) {
 					results = await executeCartOperation.call(this, {
 						operation,
 						itemIndex,
 						baseUrl,
 						items,
 					});
-				} else if (resource === 'order') {
+				} else if (resource === resources.cartDiscount) {
+					results = await executeCartDiscountOperation.call(this, {
+						operation,
+						itemIndex,
+						baseUrl,
+						items,
+					});
+				} else if (resource === resources.order) {
 					results = await executeOrderOperation.call(this, {
 						operation,
 						itemIndex,
 						baseUrl,
 						items,
+					});
+				} else if (resource === resources.productDiscount) {
+					results = await executeProductDiscountOperation.call(this, {
+						operation,
+						itemIndex,
+						baseUrl,
 					});
 				} else {
 					throw new NodeOperationError(this.getNode(), `Unsupported resource: ${resource}`, {

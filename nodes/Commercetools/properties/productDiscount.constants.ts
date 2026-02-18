@@ -1,0 +1,17 @@
+export const productDiscountFields = {
+	operation: 'operation',
+	productDiscountId: 'productDiscountId',
+	productDiscountKey: 'productDiscountKey',
+	productDiscountDraft: 'productDiscountDraft',
+	updateActions: 'updateActions',
+	additionalFieldsQuery: 'productDiscountAdditionalFieldsQuery',
+	returnAll: 'productDiscountReturnAll',
+	limit: 'productDiscountLimit',
+	offset: 'productDiscountOffset',
+	additionalFieldsGet: 'productDiscountAdditionalFieldsGet',
+	additionalFieldsCreate: 'productDiscountAdditionalFieldsCreate',
+	additionalFieldsUpdate: 'productDiscountAdditionalFieldsUpdate',
+	additionalFieldsDelete: 'productDiscountAdditionalFieldsDelete',
+	version: 'version',
+	actions: 'actions',
+} as const;

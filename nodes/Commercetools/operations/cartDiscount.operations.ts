@@ -3,38 +3,38 @@ import { NodeOperationError } from 'n8n-workflow';
 
 import { applyCommonParameters, coerceActions, coerceJsonInput } from '../utils/common.utils';
 import { buildActionsFromUi } from '../utils/actionBuilder';
-import { discountCodeFields } from '../properties/discountCode.constants';
+import { cartDiscountFields } from '../properties/cartDiscount.constants';
 
-type CategoryOperationArgs = {
+type CartDiscountOperationArgs = {
 	operation: string;
 	itemIndex: number;
 	baseUrl: string;
 };
 
-export async function executeDiscountCodeOperation(
+export async function executeCartDiscountOperation(
 	this: IExecuteFunctions,
-	{ operation, itemIndex, baseUrl }: CategoryOperationArgs,
+	{ operation, itemIndex, baseUrl }: CartDiscountOperationArgs,
 ): Promise<INodeExecutionData[]> {
 	const results: INodeExecutionData[] = [];
 
 	if (operation === 'create') {
-		const additionalFieldsCreate = this.getNodeParameter(
-			discountCodeFields.additionalFieldsCreate,
+		const additionalFields = this.getNodeParameter(
+			cartDiscountFields.additionalFieldsCreate,
 			itemIndex,
 			{},
 		) as IDataObject;
 		const qs: IDataObject = {};
-		applyCommonParameters(qs, additionalFieldsCreate);
+		applyCommonParameters(qs, additionalFields);
 
-		const draftRaw = this.getNodeParameter(discountCodeFields.discountCodeDraft, itemIndex);
-		const draft = coerceJsonInput(this, draftRaw, 'Discount Code draft', itemIndex);
+		const draftRaw = this.getNodeParameter(cartDiscountFields.cartDiscountDraft, itemIndex);
+		const draft = coerceJsonInput(this, draftRaw, 'Cart Discount draft', itemIndex);
 
 		const response = (await this.helpers.httpRequestWithAuthentication.call(
 			this,
 			'commerceToolsOAuth2Api',
 			{
 				method: 'POST',
-				url: `${baseUrl}/discount-codes`,
+				url: `${baseUrl}/cart-discounts`,
 				body: draft,
 				qs,
 			},
@@ -45,22 +45,22 @@ export async function executeDiscountCodeOperation(
 	}
 
 	if (operation === 'get' || operation === 'getByKey') {
-		const additionalFieldsGet = this.getNodeParameter(
-			discountCodeFields.additionalFieldsGet,
+		const additionalFields = this.getNodeParameter(
+			cartDiscountFields.additionalFieldsGet,
 			itemIndex,
 			{},
 		) as IDataObject;
 		const qs: IDataObject = {};
-		applyCommonParameters(qs, additionalFieldsGet);
+		applyCommonParameters(qs, additionalFields);
 
 		const identifier =
 			operation === 'get'
-				? (this.getNodeParameter(discountCodeFields.discountCodeId, itemIndex) as string)
-				: (this.getNodeParameter(discountCodeFields.discountCodeKey, itemIndex) as string);
+				? (this.getNodeParameter(cartDiscountFields.cartDiscountId, itemIndex) as string)
+				: (this.getNodeParameter(cartDiscountFields.cartDiscountKey, itemIndex) as string);
 		const url =
 			operation === 'get'
-				? `${baseUrl}/discount-codes/${identifier}`
-				: `${baseUrl}/discount-codes/key=${encodeURIComponent(identifier)}`;
+				? `${baseUrl}/cart-discounts/${identifier}`
+				: `${baseUrl}/cart-discounts/key=${encodeURIComponent(identifier)}`;
 
 		const response = (await this.helpers.httpRequestWithAuthentication.call(
 			this,
@@ -78,16 +78,16 @@ export async function executeDiscountCodeOperation(
 
 	if (operation === 'query') {
 		const returnAll = this.getNodeParameter(
-			discountCodeFields.returnAll,
+			cartDiscountFields.returnAll,
 			itemIndex,
 			false,
 		) as boolean;
 		const limit = returnAll
 			? 500
-			: (this.getNodeParameter(discountCodeFields.limit, itemIndex, 50) as number);
-		const offset = this.getNodeParameter(discountCodeFields.offset, itemIndex, 0) as number;
+			: (this.getNodeParameter(cartDiscountFields.limit, itemIndex, 50) as number);
+		const offset = this.getNodeParameter(cartDiscountFields.offset, itemIndex, 0) as number;
 		const additionalFields = this.getNodeParameter(
-			discountCodeFields.additionalFieldsQuery,
+			cartDiscountFields.additionalFieldsQuery,
 			itemIndex,
 			{},
 		) as IDataObject;
@@ -98,10 +98,7 @@ export async function executeDiscountCodeOperation(
 			qs.offset = offset;
 		}
 
-		applyCommonParameters(qs, additionalFields, {
-			allowSort: true,
-			allowWhere: true,
-		});
+		applyCommonParameters(qs, additionalFields, { allowSort: true, allowWhere: true });
 
 		if (Object.prototype.hasOwnProperty.call(additionalFields, 'withTotal')) {
 			qs.withTotal = additionalFields.withTotal as boolean;
@@ -119,26 +116,12 @@ export async function executeDiscountCodeOperation(
 				'commerceToolsOAuth2Api',
 				{
 					method: 'GET',
-					url: `${baseUrl}/discount-codes`,
-					qs: {
-						...qs,
-						offset: requestOffset,
-					},
+					url: `${baseUrl}/cart-discounts`,
+					qs: { ...qs, offset: requestOffset },
 				},
 			);
 
 			const resultsPage = (response.results ?? response) as IDataObject[];
-
-			if (!Array.isArray(resultsPage)) {
-				throw new NodeOperationError(
-					this.getNode(),
-					'Unexpected response format from Commercetools API',
-					{
-						itemIndex,
-					},
-				);
-			}
-
 			collected.push(...resultsPage);
 
 			if (!returnAll) {
@@ -160,18 +143,18 @@ export async function executeDiscountCodeOperation(
 	}
 
 	if (operation === 'update' || operation === 'updateByKey') {
-		const additionalFieldsUpdate = this.getNodeParameter(
-			discountCodeFields.additionalFieldsUpdate,
+		const additionalFields = this.getNodeParameter(
+			cartDiscountFields.additionalFieldsUpdate,
 			itemIndex,
 			{},
 		) as IDataObject;
 		const qs: IDataObject = {};
-		applyCommonParameters(qs, additionalFieldsUpdate);
+		applyCommonParameters(qs, additionalFields);
 
-		const version = this.getNodeParameter(discountCodeFields.version, itemIndex) as number;
-		const rawActions = this.getNodeParameter(discountCodeFields.actions, itemIndex);
+		const version = this.getNodeParameter(cartDiscountFields.version, itemIndex) as number;
+		const rawActions = this.getNodeParameter(cartDiscountFields.actions, itemIndex);
 		const actionsUi = this.getNodeParameter(
-			discountCodeFields.updateActions,
+			cartDiscountFields.updateActions,
 			itemIndex,
 			{},
 		) as IDataObject;
@@ -180,80 +163,60 @@ export async function executeDiscountCodeOperation(
 		const actions = [...actionsFromJson, ...actionsFromUi];
 
 		if (actions.length === 0) {
-			throw new NodeOperationError(
-				this.getNode(),
-				'Provide at least one update action via Actions (JSON) or Actions (UI)',
-				{ itemIndex },
-			);
+			throw new NodeOperationError(this.getNode(), 'Provide at least one update action', {
+				itemIndex,
+			});
 		}
 
-		const body = {
-			version,
-			actions,
-		};
-
-		const identifierParam =
+		const body = { version, actions };
+		const identifier =
 			operation === 'update'
-				? (this.getNodeParameter(discountCodeFields.discountCodeId, itemIndex) as string)
-				: (this.getNodeParameter(discountCodeFields.discountCodeKey, itemIndex) as string);
+				? (this.getNodeParameter(cartDiscountFields.cartDiscountId, itemIndex) as string)
+				: (this.getNodeParameter(cartDiscountFields.cartDiscountKey, itemIndex) as string);
 		const url =
 			operation === 'update'
-				? `${baseUrl}/discount-codes/${identifierParam}`
-				: `${baseUrl}/discount-codes/key=${encodeURIComponent(identifierParam)}`;
+				? `${baseUrl}/cart-discounts/${identifier}`
+				: `${baseUrl}/cart-discounts/key=${encodeURIComponent(identifier)}`;
 
 		const response = (await this.helpers.httpRequestWithAuthentication.call(
 			this,
 			'commerceToolsOAuth2Api',
-			{
-				method: 'POST',
-				url,
-				body,
-				qs,
-			},
+			{ method: 'POST', url, body, qs },
 		)) as IDataObject;
-
 		results.push({ json: response });
 		return results;
 	}
 
 	if (operation === 'delete' || operation === 'deleteByKey') {
-		const additionalFieldsDelete = this.getNodeParameter(
-			discountCodeFields.additionalFieldsDelete,
+		const additionalFields = this.getNodeParameter(
+			cartDiscountFields.additionalFieldsDelete,
 			itemIndex,
 			{},
 		) as IDataObject;
 		const qs: IDataObject = {};
-		applyCommonParameters(qs, additionalFieldsDelete);
+		applyCommonParameters(qs, additionalFields);
 
-		const version = this.getNodeParameter(discountCodeFields.version, itemIndex) as number;
-		qs.version = version;
+		qs.version = this.getNodeParameter(cartDiscountFields.version, itemIndex) as number;
 
-		const identifierParam =
+		const identifier =
 			operation === 'delete'
-				? (this.getNodeParameter(discountCodeFields.discountCodeId, itemIndex) as string)
-				: (this.getNodeParameter(discountCodeFields.discountCodeKey, itemIndex) as string);
+				? (this.getNodeParameter(cartDiscountFields.cartDiscountId, itemIndex) as string)
+				: (this.getNodeParameter(cartDiscountFields.cartDiscountKey, itemIndex) as string);
 		const url =
 			operation === 'delete'
-				? `${baseUrl}/discount-codes/${identifierParam}`
-				: `${baseUrl}/discount-codes/key=${encodeURIComponent(identifierParam)}`;
+				? `${baseUrl}/cart-discounts/${identifier}`
+				: `${baseUrl}/cart-discounts/key=${encodeURIComponent(identifier)}`;
 
 		const response = (await this.helpers.httpRequestWithAuthentication.call(
 			this,
 			'commerceToolsOAuth2Api',
-			{
-				method: 'DELETE',
-				url,
-				qs,
-			},
+			{ method: 'DELETE', url, qs },
 		)) as IDataObject;
-
 		results.push({ json: response });
 		return results;
 	}
 
-	throw new NodeOperationError(
-		this.getNode(),
-		`Unsupported operation for discount code resource: ${operation}`,
-		{ itemIndex },
-	);
+	throw new NodeOperationError(this.getNode(), `Unsupported operation: ${operation}`, {
+		itemIndex,
+	});
 }
